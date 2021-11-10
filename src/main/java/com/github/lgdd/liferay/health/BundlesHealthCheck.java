@@ -9,11 +9,10 @@ import java.util.Dictionary;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-import org.apache.felix.dm.diagnostics.CircularDependency;
-import org.apache.felix.dm.diagnostics.DependencyGraph;
-import org.apache.felix.dm.diagnostics.DependencyGraph.ComponentState;
-import org.apache.felix.dm.diagnostics.DependencyGraph.DependencyState;
-import org.apache.felix.dm.diagnostics.MissingDependency;
+
+import com.github.lgdd.liferay.health.internal.CircularDependency;
+import com.github.lgdd.liferay.health.internal.DependencyGraph;
+import com.github.lgdd.liferay.health.internal.MissingDependency;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
@@ -218,7 +217,7 @@ public class BundlesHealthCheck {
     List<String> issues = new ArrayList<>();
 
     DependencyGraph graph = DependencyGraph
-        .getGraph(ComponentState.UNREGISTERED, DependencyState.REQUIRED_UNAVAILABLE);
+        .getGraph(DependencyGraph.ComponentState.UNREGISTERED, DependencyGraph.DependencyState.REQUIRED_UNAVAILABLE);
 
     issues.addAll(_listResolvedBundles(_context.getBundles()));
     issues.addAll(_listInstalledBundles(_context.getBundles()));

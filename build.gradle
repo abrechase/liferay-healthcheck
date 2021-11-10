@@ -1,6 +1,10 @@
 version = "1.1.2"
 
 apply plugin: "java"
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
 apply plugin: "maven-publish"
 apply plugin: "signing"
 apply plugin: "com.liferay.target.platform"
@@ -19,16 +23,16 @@ dependencies {
     compileOnly group: "org.osgi", name: "org.osgi.core"
     compileOnly group: "org.osgi", name: "org.osgi.service.jaxrs"
     compileOnly group: "org.osgi", name: "org.osgi.service.component.annotations"
-    compileOnly group: "org.osgi", name: "org.osgi.annotation.versioning"
+    compileOnly group: "org.osgi", name: "org.osgi.annotation.versioning", version: "1.1.0"
 
-    compileOnly group: "org.apache.felix", name: "org.apache.felix.dependencymanager", version: "4.6.0"
+    compileOnly group: "org.apache.felix", name: "org.apache.felix.dependencymanager", version: "3.2.0"
 
     compileOnly group: "org.projectlombok", name: "lombok", version: "1.18.12"
     annotationProcessor group: "org.projectlombok", name: "lombok", version: "1.18.12"
 
-    targetPlatformBoms group: "com.liferay.portal", name: "release.portal.bom", version: "7.2.1"
-    targetPlatformBoms group: "com.liferay.portal", name: "release.portal.bom.compile.only", version: "7.2.1"
-    targetPlatformBoms group: "com.liferay.portal", name: "release.portal.bom.third.party", version: "7.2.1"
+    targetPlatformBoms group: "com.liferay.portal", name: "release.portal.bom", version: "7.1.3"
+    targetPlatformBoms group: "com.liferay.portal", name: "release.portal.bom.compile.only", version: "7.1.3"
+    targetPlatformBoms group: "com.liferay.portal", name: "release.portal.bom.third.party", version: "7.1.3"
 }
 
 def defaultEncoding = "UTF-8"
@@ -59,6 +63,7 @@ repositories {
     maven { url "http://m2repo.spockframework.org/snapshots" }
     maven { url "http://repository.sonatype.org/content/groups/public" }
     maven { url "https://mvnrepository.com/artifact/com.sun/tools" }
+    maven { url "https://mvnrepository.com/artifact/org.osgi/org.osgi.annotation.versioning" }
     maven { url "https://jitpack.io" }
 }
 
@@ -70,55 +75,4 @@ task sourcesJar(type: Jar) {
 task javadocJar(type: Jar) {
     from javadoc
     archiveClassifier = "javadoc"
-}
-
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            groupId = "com.github.lgdd"
-            artifactId = "liferay-healthcheck"
-            version = "${project.version}"
-
-            from components.java
-
-            artifact sourcesJar
-            artifact javadocJar
-
-            pom {
-                name = "Liferay Health Check"
-                description = "A configurable API to help you expose more accurate readiness and liveness probes"
-                url = "https://github.com/lgdd/liferay-healthcheck"
-
-                licenses {
-                    license {
-                        name = "MIT License"
-                        url = "https://github.com/lgdd/liferay-healthcheck/blob/master/LICENSE"
-                    }
-                }
-                developers {
-                    developer {
-                        id = "lgdd"
-                    }
-                }
-                scm {
-                    connection = "scm:git:git://github.com/lgdd/liferay-healthcheck.git"
-                    developerConnection = "scm:git:ssh://git@github.com:lgdd/liferay-healthcheck.git"
-                    url = "https://github.com/lgdd/liferay-healthcheck"
-                }
-            }
-        }
-    }
-    repositories {
-        maven {
-            url = "https://oss.sonatype.org/service/local/staging/deploy/maven2"
-            credentials {
-                username sonatypeUsername
-                password sonatypePassword
-            }
-        }
-    }
-}
-
-signing {
-    sign publishing.publications.mavenJava
 }

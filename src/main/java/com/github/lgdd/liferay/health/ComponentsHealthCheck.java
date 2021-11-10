@@ -3,8 +3,9 @@ package com.github.lgdd.liferay.health;
 import com.github.lgdd.liferay.health.api.HealthCheckResponse;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.github.lgdd.liferay.health.internal.DependencyGraph;
 import org.apache.felix.dm.ComponentDeclaration;
-import org.apache.felix.dm.diagnostics.DependencyGraph;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.service.component.annotations.Component;
